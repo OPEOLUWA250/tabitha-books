@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../../components/store/Navbar";
-import { createProduct } from "../../utils/supabase";
+import { createProduct, clearProductCache } from "../../utils/supabase";
 import { ArrowLeft, Upload } from "lucide-react";
 
 export const AddProduct: React.FC = () => {
@@ -75,15 +75,17 @@ export const AddProduct: React.FC = () => {
       });
 
       if (submitError) {
-        setError(
+        const errorMessage =
           typeof submitError === "string"
             ? submitError
-            : "Failed to create product",
-        );
+            : submitError?.message || "Failed to create product";
+        console.error("Create error:", submitError);
+        setError(errorMessage);
         return;
       }
 
-      // Success - navigate back to products
+      // Success - clear cache and navigate back
+      clearProductCache();
       navigate("/admin/products");
     } catch (err: any) {
       setError(err.message || "An error occurred");

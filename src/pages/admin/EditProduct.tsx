@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../../components/store/Navbar";
-import { getProducts, updateProduct } from "../../utils/supabase";
+import {
+  getProducts,
+  updateProduct,
+  clearProductCache,
+} from "../../utils/supabase";
 import { ArrowLeft, Upload } from "lucide-react";
 
 export const EditProduct: React.FC = () => {
@@ -107,7 +111,6 @@ export const EditProduct: React.FC = () => {
     try {
       const { error: submitError } = await updateProduct(id || "", {
         name: formData.name,
-        description: formData.description,
         price: formData.price,
         category: formData.category,
         image_url: formData.image_url,
@@ -115,15 +118,17 @@ export const EditProduct: React.FC = () => {
       });
 
       if (submitError) {
-        setError(
+        const errorMessage =
           typeof submitError === "string"
             ? submitError
-            : "Failed to update product",
-        );
+            : submitError?.message || "Failed to update product";
+        console.error("Update error:", submitError);
+        setError(errorMessage);
         return;
       }
 
-      // Success - navigate back to products
+      // Success - clear cache and navigate back to products
+      clearProductCache();
       navigate("/admin/products");
     } catch (err: any) {
       setError(err.message || "An error occurred");

@@ -10,6 +10,11 @@ export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+// Simple cache for products (5 minute TTL)
+let cachedProducts: any[] | null = null;
+let cacheTtl = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 // Type definitions
 export interface CartItem {
   id: string;
@@ -262,16 +267,47 @@ export const getProducts = async () => {
 
     if (!supabase) return { data: MOCK_PRODUCTS, error: null };
 
+    // Check cache first
+    if (cachedProducts && Date.now() < cacheTtl) {
+      console.log("Using cached products");
+      return { data: cachedProducts, error: null };
+    }
+
+    console.log("Fetching products from Supabase...");
     const { data, error } = await supabase
       .from("products")
-      .select("*")
+      .select("id, name, price, category, stock, image_url, created_at")
       .order("created_at", { ascending: false });
 
-    return { data: data || [], error };
+    if (error) {
+      console.error("Supabase error:", error);
+      return { data, error };
+    }
+
+    // Update cache
+    cachedProducts = data || [];
+    cacheTtl = Date.now() + CACHE_DURATION;
+
+    console.log(
+      "Successfully fetched",
+      data?.length || 0,
+      "products from Supabase",
+    );
+    return { data: data || [], error: null };
   } catch (error) {
     console.error("Error fetching products:", error);
-    return { data: [], error };
+    return {
+      data: [],
+      error: error instanceof Error ? error.message : String(error),
+    };
   }
+};
+
+// Function to clear product cache (call after adding/editing product)
+export const clearProductCache = () => {
+  console.log("Clearing product cache");
+  cachedProducts = null;
+  cacheTtl = 0;
 };
 
 export const createProduct = async (product: any) => {
@@ -291,10 +327,18 @@ export const createProduct = async (product: any) => {
       .insert([product])
       .select();
 
-    return { data, error };
+    if (error) {
+      console.error("Error creating product in Supabase:", error);
+      return { data: null, error: error.message || error };
+    }
+
+    return { data, error: null };
   } catch (error) {
     console.error("Error creating product:", error);
-    return { data: null, error };
+    return {
+      data: null,
+      error: error instanceof Error ? error.message : String(error),
+    };
   }
 };
 
@@ -316,10 +360,18 @@ export const updateProduct = async (productId: string, updates: any) => {
       .eq("id", productId)
       .select();
 
-    return { data, error };
+    if (error) {
+      console.error("Error updating product in Supabase:", error);
+      return { data: null, error: error.message || error };
+    }
+
+    return { data, error: null };
   } catch (error) {
     console.error("Error updating product:", error);
-    return { data: null, error };
+    return {
+      data: null,
+      error: error instanceof Error ? error.message : String(error),
+    };
   }
 };
 
@@ -339,10 +391,18 @@ export const deleteProduct = async (productId: string) => {
       .delete()
       .eq("id", productId);
 
-    return { data, error };
+    if (error) {
+      console.error("Error deleting product in Supabase:", error);
+      return { data: null, error: error.message || error };
+    }
+
+    return { data, error: null };
   } catch (error) {
     console.error("Error deleting product:", error);
-    return { data: null, error };
+    return {
+      data: null,
+      error: error instanceof Error ? error.message : String(error),
+    };
   }
 };
 

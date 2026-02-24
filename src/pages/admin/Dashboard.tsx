@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/store/Navbar";
 import { Link } from "react-router-dom";
 import { Plus, Edit, Trash2, Search } from "lucide-react";
-import { getProducts, deleteProduct } from "../../utils/supabase";
+import {
+  getProducts,
+  deleteProduct,
+  clearProductCache,
+} from "../../utils/supabase";
 
 interface ProductData {
   id: string;
@@ -16,21 +20,47 @@ interface ProductData {
 export const AdminDashboard: React.FC = () => {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const { data: productsData } = await getProducts();
+        console.log("Fetching products...");
+        setError(null);
+        const { data: productsData, error: fetchError } = await getProducts();
+
+        console.log(
+          "Products fetched:",
+          productsData?.length || 0,
+          "Error:",
+          fetchError,
+        );
+
+        if (fetchError) {
+          console.error("Fetch error:", fetchError);
+          setError(
+            typeof fetchError === "string"
+              ? fetchError
+              : "Failed to load products",
+          );
+          setProducts([]);
+          return;
+        }
 
         if (productsData && Array.isArray(productsData)) {
           setProducts(productsData as ProductData[]);
         } else {
+          console.warn("No products data returned");
           setProducts([]);
         }
       } catch (error) {
         console.error("Error loading dashboard:", error);
+        setError(
+          error instanceof Error ? error.message : "Failed to load dashboard",
+        );
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -49,9 +79,14 @@ export const AdminDashboard: React.FC = () => {
       try {
         const { error } = await deleteProduct(productId);
         if (error) {
-          alert("Failed to delete product");
+          const errorMessage =
+            typeof error === "string"
+              ? error
+              : error?.message || "Failed to delete product";
+          alert(errorMessage);
           console.error("Delete error:", error);
         } else {
+          clearProductCache();
           setProducts((prev) => prev.filter((p) => p.id !== productId));
         }
       } catch (err) {
@@ -73,6 +108,28 @@ export const AdminDashboard: React.FC = () => {
         <Navbar isAdmin={true} />
         <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
           <p className="text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar isAdmin={true} />
+        <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 max-w-md">
+            <p className="text-red-800 font-semibold">
+              Error loading dashboard
+            </p>
+            <p className="text-red-700 text-sm mt-2">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition text-sm"
+            >
+              Retry
+            </button>
+          </div>
         </div>
       </div>
     );

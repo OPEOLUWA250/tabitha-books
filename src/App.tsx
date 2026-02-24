@@ -23,7 +23,7 @@ import { FloatingButtons } from "./components/FloatingButtons";
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <FloatingButtons />
       <Routes>
         {/* Store Routes */}
