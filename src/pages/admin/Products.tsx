@@ -75,19 +75,23 @@ export const AdminProducts: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar isAdmin={true} />
 
-      <div className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="pt-20 md:pt-32 pb-20 px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-start gap-4 mb-8">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900">Products</h1>
-              <p className="text-gray-600">Manage your store's inventory</p>
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                Products
+              </h1>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">
+                Manage your store's inventory
+              </p>
             </div>
             <Link
               to="/admin/products/new"
-              className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition text-sm sm:text-base"
             >
-              <Plus className="w-5 h-5 mr-2" />
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Add Product
             </Link>
           </div>
@@ -95,19 +99,19 @@ export const AdminProducts: React.FC = () => {
           {/* Search */}
           <div className="mb-6">
             <div className="relative">
-              <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 sm:left-4 top-2.5 sm:top-3.5 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                className="w-full pl-9 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 text-sm sm:text-base"
               />
             </div>
           </div>
 
-          {/* Products Table */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden md:block bg-white rounded-lg border border-gray-200 shadow-sm overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
@@ -207,6 +211,76 @@ export const AdminProducts: React.FC = () => {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-3">
+            {loading ? (
+              <div className="text-center py-8 text-gray-500">
+                Loading products...
+              </div>
+            ) : filteredProducts.length === 0 ? (
+              <div className="bg-white rounded-lg border border-gray-200 p-6 text-center text-gray-500 text-sm">
+                {products.length === 0
+                  ? "No products yet. Click 'Add Product' to create one."
+                  : "No products match your search."}
+              </div>
+            ) : (
+              filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm"
+                >
+                  <div className="flex gap-3 mb-3">
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      className="w-16 h-16 rounded object-cover flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900 text-sm line-clamp-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-xs text-gray-600 capitalize mt-0.5">
+                        {product.category}
+                      </p>
+                      <p className="text-sm font-bold text-gray-900 mt-1">
+                        ₦{Number(product.price).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        product.stock > 20
+                          ? "bg-green-100 text-green-800"
+                          : product.stock > 10
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {product.stock} units
+                    </span>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleEdit(product.id)}
+                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={deleting !== null}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(product.id)}
+                        className="p-1.5 text-red-600 hover:bg-red-50 rounded transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={deleting !== null}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

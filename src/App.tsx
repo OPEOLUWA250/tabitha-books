@@ -17,8 +17,6 @@ import { AdminDashboard } from "./pages/admin/Dashboard";
 import { AdminProducts } from "./pages/admin/Products";
 import { AddProduct } from "./pages/admin/AddProduct";
 import { EditProduct } from "./pages/admin/EditProduct";
-import { AdminOrders } from "./pages/admin/Orders";
-import { AdminAnalytics } from "./pages/admin/Analytics";
 
 // Components
 import { FloatingButtons } from "./components/FloatingButtons";
@@ -40,8 +38,6 @@ function App() {
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/products/new" element={<AddProduct />} />
         <Route path="/admin/products/:id/edit" element={<EditProduct />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
-        <Route path="/admin/analytics" element={<AdminAnalytics />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { ArrowUp } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 export const FloatingButtons: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith("/admin");
+
+  // Don't show floating buttons on admin pages
+  if (isAdminPage) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {

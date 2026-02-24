@@ -25,64 +25,35 @@ export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
             </div>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {!isAdmin ? (
-              <>
-                <Link
-                  to="/"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  Home
-                </Link>
-                <Link
-                  to="/shop"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  Shop
-                </Link>
-                <Link
-                  to="/about"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  About
-                </Link>
-                <Link
-                  to="/contact"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  Contact
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/admin"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  to="/admin/products"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  Products
-                </Link>
-                <Link
-                  to="/admin/orders"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  Orders
-                </Link>
-                <Link
-                  to="/admin/analytics"
-                  className="text-gray-700 hover:text-primary-600 font-medium transition"
-                >
-                  Analytics
-                </Link>
-              </>
-            )}
-          </div>
+          {/* Desktop Menu - Hidden for Admin */}
+          {!isAdmin && (
+            <div className="hidden md:flex items-center space-x-8">
+              <Link
+                to="/"
+                className="text-gray-700 hover:text-primary-600 font-medium transition"
+              >
+                Home
+              </Link>
+              <Link
+                to="/shop"
+                className="text-gray-700 hover:text-primary-600 font-medium transition"
+              >
+                Shop
+              </Link>
+              <Link
+                to="/about"
+                className="text-gray-700 hover:text-primary-600 font-medium transition"
+              >
+                About
+              </Link>
+              <Link
+                to="/contact"
+                className="text-gray-700 hover:text-primary-600 font-medium transition"
+              >
+                Contact
+              </Link>
+            </div>
+          )}
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center space-x-4">
@@ -133,70 +104,39 @@ export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
+        {/* Mobile Menu - Hidden for Admin */}
+        {isOpen && !isAdmin && (
           <div className="md:hidden pb-4 space-y-3 bg-beige-50 -mx-4 -mb-4 px-4 py-4 rounded-b-lg">
-            {!isAdmin ? (
-              <>
-                <Link
-                  to="/"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Home
-                </Link>
-                <Link
-                  to="/shop"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Shop
-                </Link>
-                <Link
-                  to="/about"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  About
-                </Link>
-                <Link
-                  to="/contact"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Contact
-                </Link>
-                <Link
-                  to="/cart"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Cart ({cartItems})
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/admin"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  to="/admin/products"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Products
-                </Link>
-                <Link
-                  to="/admin/orders"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Orders
-                </Link>
-                <Link
-                  to="/admin/analytics"
-                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
-                >
-                  Analytics
-                </Link>
-              </>
-            )}
+            <Link
+              to="/"
+              className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+            >
+              Home
+            </Link>
+            <Link
+              to="/shop"
+              className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+            >
+              Shop
+            </Link>
+            <Link
+              to="/about"
+              className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+            >
+              Contact
+            </Link>
+            <Link
+              to="/cart"
+              className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+            >
+              Cart ({cartItems})
+            </Link>
           </div>
         )}
       </div>
