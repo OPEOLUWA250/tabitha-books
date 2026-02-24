@@ -1,6 +1,6 @@
 import type { CartItem } from "./supabase";
 
-const WHATSAPP_NUMBER = "234802784294"; // Mashafy WhatsApp number
+const WHATSAPP_NUMBER = "2348027842294"; // Mashafy WhatsApp number
 
 export const generateWhatsAppMessage = (
   cartItems: CartItem[],

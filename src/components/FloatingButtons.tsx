@@ -16,7 +16,7 @@ export const FloatingButtons: React.FC = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    window.open("https://wa.me/234802784294", "_blank");
+    window.open("https://wa.me/2348027842294", "_blank");
   };
 
   const handleBackToTop = () => {

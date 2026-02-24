@@ -111,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-gray-700"
+            className="md:hidden p-2 bg-primary-600 text-white rounded-lg transition hover:bg-primary-700"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -119,7 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden pb-4 space-y-3">
+          <div className="md:hidden pb-4 space-y-3 bg-beige-50 -mx-4 -mb-4 px-4 py-4 rounded-b-lg">
             {!isAdmin ? (
               <>
                 <Link
