@@ -4,6 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { useEffect } from "react";
 
 // Store Pages
 import { Home } from "./pages/store/Home";
@@ -20,8 +21,21 @@ import { EditProduct } from "./pages/admin/EditProduct";
 
 // Components
 import { FloatingButtons } from "./components/FloatingButtons";
+import { getProducts } from "./utils/supabase";
 
 function App() {
+  useEffect(() => {
+    // Preload products on app startup
+    console.log("App started - preloading products...");
+    getProducts()
+      .then(() => {
+        console.log("Products preloaded successfully");
+      })
+      .catch((err) => {
+        console.error("Failed to preload products:", err);
+      });
+  }, []);
+
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <FloatingButtons />

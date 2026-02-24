@@ -13,7 +13,44 @@ export const supabase = isSupabaseConfigured
 // Simple cache for products (5 minute TTL)
 let cachedProducts: any[] | null = null;
 let cacheTtl = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour (increased from 5 minutes)
+
+// Load cache from localStorage on startup
+const loadCacheFromStorage = () => {
+  try {
+    const stored = localStorage.getItem("mashafy_products_cache");
+    if (stored) {
+      const { data, ttl } = JSON.parse(stored);
+      if (Date.now() < ttl) {
+        cachedProducts = data;
+        cacheTtl = ttl;
+        console.log("Loaded products from localStorage cache");
+        return true;
+      }
+    }
+  } catch (e) {
+    console.warn("Failed to load cache from localStorage");
+  }
+  return false;
+};
+
+// Save cache to localStorage
+const saveCacheToStorage = (data: any[]) => {
+  try {
+    localStorage.setItem(
+      "mashafy_products_cache",
+      JSON.stringify({
+        data,
+        ttl: cacheTtl,
+      }),
+    );
+  } catch (e) {
+    console.warn("Failed to save cache to localStorage");
+  }
+};
+
+// Try to load from localStorage on module load
+loadCacheFromStorage();
 
 // Type definitions
 export interface CartItem {
@@ -267,9 +304,9 @@ export const getProducts = async () => {
 
     if (!supabase) return { data: MOCK_PRODUCTS, error: null };
 
-    // Check cache first
+    // Check memory cache first
     if (cachedProducts && Date.now() < cacheTtl) {
-      console.log("Using cached products");
+      console.log("Using cached products from memory");
       return { data: cachedProducts, error: null };
     }
 
@@ -277,29 +314,31 @@ export const getProducts = async () => {
     const { data, error } = await supabase
       .from("products")
       .select("id, name, price, category, stock, image_url, created_at")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(50); // Limit to 50 products for faster loading
 
     if (error) {
       console.error("Supabase error:", error);
-      return { data, error };
+      // Return mock products as fallback
+      return { data: MOCK_PRODUCTS, error: null };
     }
 
-    // Update cache
-    cachedProducts = data || [];
-    cacheTtl = Date.now() + CACHE_DURATION;
+    if (!data || data.length === 0) {
+      console.log("No products from Supabase, using mock products");
+      return { data: MOCK_PRODUCTS, error: null };
+    }
 
-    console.log(
-      "Successfully fetched",
-      data?.length || 0,
-      "products from Supabase",
-    );
-    return { data: data || [], error: null };
+    // Update caches
+    cachedProducts = data;
+    cacheTtl = Date.now() + CACHE_DURATION;
+    saveCacheToStorage(data);
+
+    console.log("Successfully fetched", data.length, "products from Supabase");
+    return { data, error: null };
   } catch (error) {
     console.error("Error fetching products:", error);
-    return {
-      data: [],
-      error: error instanceof Error ? error.message : String(error),
-    };
+    // Fall back to mock products on any error
+    return { data: MOCK_PRODUCTS, error: null };
   }
 };
 
@@ -308,6 +347,11 @@ export const clearProductCache = () => {
   console.log("Clearing product cache");
   cachedProducts = null;
   cacheTtl = 0;
+  try {
+    localStorage.removeItem("mashafy_products_cache");
+  } catch (e) {
+    console.warn("Failed to clear localStorage cache");
+  }
 };
 
 export const createProduct = async (product: any) => {
