@@ -1,0 +1,53 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+// Store Pages
+import { Home } from "./pages/store/Home";
+import { Shop } from "./pages/store/Shop";
+import { Cart } from "./pages/store/Cart";
+import { About } from "./pages/store/About";
+import { Contact } from "./pages/store/Contact";
+
+// Admin Pages
+import { AdminDashboard } from "./pages/admin/Dashboard";
+import { AdminProducts } from "./pages/admin/Products";
+import { AddProduct } from "./pages/admin/AddProduct";
+import { EditProduct } from "./pages/admin/EditProduct";
+import { AdminOrders } from "./pages/admin/Orders";
+import { AdminAnalytics } from "./pages/admin/Analytics";
+
+// Components
+import { FloatingButtons } from "./components/FloatingButtons";
+
+function App() {
+  return (
+    <Router>
+      <FloatingButtons />
+      <Routes>
+        {/* Store Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/products/new" element={<AddProduct />} />
+        <Route path="/admin/products/:id/edit" element={<EditProduct />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/admin/analytics" element={<AdminAnalytics />} />
+
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

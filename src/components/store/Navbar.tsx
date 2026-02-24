@@ -1,0 +1,189 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { ShoppingBag, Menu, X, User, LogOut } from "lucide-react";
+import { useCartStore } from "../../store/cartStore";
+
+interface NavbarProps {
+  isAdmin?: boolean;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const cartItems = useCartStore((state) => state.getTotalItems());
+
+  return (
+    <nav className="fixed w-full bg-white border-b border-gray-200 z-50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link
+            to={isAdmin ? "/admin" : "/"}
+            className="flex items-center space-x-2"
+          >
+            <div className="text-2xl font-bold text-gray-900">
+              ⚡ <span className="text-primary-600">Mashafy</span>
+            </div>
+          </Link>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
+            {!isAdmin ? (
+              <>
+                <Link
+                  to="/"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  Home
+                </Link>
+                <Link
+                  to="/shop"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  Shop
+                </Link>
+                <Link
+                  to="/about"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  About
+                </Link>
+                <Link
+                  to="/contact"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  Contact
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/admin"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  to="/admin/products"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  Products
+                </Link>
+                <Link
+                  to="/admin/orders"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  Orders
+                </Link>
+                <Link
+                  to="/admin/analytics"
+                  className="text-gray-700 hover:text-primary-600 font-medium transition"
+                >
+                  Analytics
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* Right Actions */}
+          <div className="hidden md:flex items-center space-x-4">
+            {!isAdmin && (
+              <Link to="/cart" className="relative">
+                <ShoppingBag className="w-6 h-6 text-gray-700 hover:text-primary-600 transition" />
+                {cartItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartItems}
+                  </span>
+                )}
+              </Link>
+            )}
+            <Link
+              to={isAdmin ? "/" : "/admin"}
+              className="p-2 hover:bg-gray-100 rounded-full transition"
+            >
+              {isAdmin ? (
+                <LogOut className="w-5 h-5 text-gray-700" />
+              ) : (
+                <User className="w-5 h-5 text-gray-700" />
+              )}
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 text-gray-700"
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="md:hidden pb-4 space-y-3">
+            {!isAdmin ? (
+              <>
+                <Link
+                  to="/"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Home
+                </Link>
+                <Link
+                  to="/shop"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Shop
+                </Link>
+                <Link
+                  to="/about"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  About
+                </Link>
+                <Link
+                  to="/contact"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Contact
+                </Link>
+                <Link
+                  to="/cart"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Cart ({cartItems})
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/admin"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  to="/admin/products"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Products
+                </Link>
+                <Link
+                  to="/admin/orders"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Orders
+                </Link>
+                <Link
+                  to="/admin/analytics"
+                  className="block text-gray-700 hover:text-primary-600 font-medium py-2"
+                >
+                  Analytics
+                </Link>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
