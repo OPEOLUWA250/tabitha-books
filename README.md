@@ -16,11 +16,9 @@ A premium, fully responsive e-commerce platform built for Mashafy Lifestyle, an 
 
 ### Admin Dashboard
 
-- **Dashboard Overview**: Real-time stats and key metrics
-- **Product Management**: Add, edit, and manage inventory
-- **Order Management**: Track and manage customer orders
-- **Analytics**: Performance tracking and insights
-- **Responsive Admin UI**: Works seamlessly on all devices
+- **Dashboard Overview**: Browse and manage products with search
+- **Product Management**: Add, edit, and delete inventory
+- **Responsive Admin UI**: Fully optimized for mobile and desktop
 
 ### Additional Pages
 
@@ -60,8 +58,7 @@ mashafy-lifestyle/
 │   │   └── admin/
 │   │       ├── Dashboard.tsx
 │   │       ├── Products.tsx
-│   │       ├── Orders.tsx
-│   │       └── Analytics.tsx
+
 │   ├── store/
 │   │   └── cartStore.ts
 │   ├── types/
@@ -158,8 +155,6 @@ npm run preview  # Preview production build
 
 - `/admin` - Dashboard
 - `/admin/products` - Product management
-- `/admin/orders` - Order management
-- `/admin/analytics` - Analytics & insights
 
 ## 🎯 Key Features
 
@@ -181,11 +176,10 @@ npm run preview  # Preview production build
 
 ### Admin Features
 
-- Sales statistics
-- Order tracking
-- Product inventory
-- Performance metrics
-- Export capabilities
+- Product inventory management
+- Search and filter products
+- Add, edit, and delete products
+- Mobile-responsive dashboard
 
 ## 📱 Responsive Design
 
