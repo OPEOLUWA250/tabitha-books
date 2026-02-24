@@ -108,13 +108,29 @@ export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 bg-primary-600 text-white rounded-lg transition hover:bg-primary-700"
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Cart Icon & Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            {!isAdmin && (
+              <Link to="/cart" className="relative p-2">
+                <ShoppingBag className="w-6 h-6 text-gray-700" />
+                {cartItems > 0 && (
+                  <span className="absolute top-0 right-0 bg-primary-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center\">
+                    {cartItems}
+                  </span>
+                )}
+              </Link>
+            )}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 bg-primary-600 text-white rounded-lg transition hover:bg-primary-700"
+            >
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
