@@ -90,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
               <Link to="/cart" className="relative">
                 <ShoppingBag className="w-6 h-6 text-gray-700 hover:text-primary-600 transition" />
                 {cartItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-2 -right-2 bg-primary-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center leading-none">
                     {cartItems}
                   </span>
                 )}
@@ -114,7 +114,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isAdmin = false }) => {
               <Link to="/cart" className="relative p-2">
                 <ShoppingBag className="w-6 h-6 text-gray-700" />
                 {cartItems > 0 && (
-                  <span className="absolute top-0 right-0 bg-primary-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center\">
+                  <span className="absolute top-0 right-0 bg-primary-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none">
                     {cartItems}
                   </span>
                 )}
