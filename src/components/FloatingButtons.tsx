@@ -7,12 +7,6 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 export const FloatingButtons: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const location = useLocation();
-  const isAdminPage = location.pathname.startsWith("/admin");
-
-  // Don't show floating buttons on admin pages
-  if (isAdminPage) {
-    return null;
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +16,13 @@ export const FloatingButtons: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const isAdminPage = location.pathname.startsWith("/admin");
+
+  // Don't show floating buttons on admin pages
+  if (isAdminPage) {
+    return null;
+  }
 
   const handleWhatsApp = () => {
     window.open("https://wa.me/2348027842294", "_blank");
