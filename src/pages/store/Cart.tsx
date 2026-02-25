@@ -3,13 +3,26 @@ import { Link } from "react-router-dom";
 import { Navbar } from "../../components/store/Navbar";
 import { Footer } from "../../components/store/Footer";
 import { useCartStore } from "../../store/cartStore";
-import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowLeft, X } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { openWhatsAppCheckout } from "../../utils/whatsapp";
 
+interface CustomerInfo {
+  name: string;
+  phone: string;
+  address: string;
+}
+
 export const Cart: React.FC = () => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
+    name: "",
+    phone: "",
+    address: "",
+  });
+  const [errors, setErrors] = useState<Partial<CustomerInfo>>({});
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
@@ -19,11 +32,25 @@ export const Cart: React.FC = () => {
   const totalPrice = getTotalPrice();
   const finalTotal = totalPrice;
 
+  const validateForm = () => {
+    const newErrors: Partial<CustomerInfo> = {};
+    if (!customerInfo.name.trim()) newErrors.name = "Name is required";
+    if (!customerInfo.phone.trim())
+      newErrors.phone = "Phone number is required";
+    if (!customerInfo.address.trim()) newErrors.address = "Address is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleWhatsAppCheckout = () => {
+    if (!validateForm()) return;
+
     setIsCheckingOut(true);
-    openWhatsAppCheckout(items, finalTotal);
+    openWhatsAppCheckout(items, finalTotal, customerInfo);
     setTimeout(() => {
       clearCart();
+      setShowCheckoutForm(false);
+      setCustomerInfo({ name: "", phone: "", address: "" });
       setIsCheckingOut(false);
     }, 1000);
   };
@@ -188,7 +215,7 @@ export const Cart: React.FC = () => {
                   </div>
 
                   <button
-                    onClick={handleWhatsAppCheckout}
+                    onClick={() => setShowCheckoutForm(true)}
                     disabled={isCheckingOut}
                     className="w-full py-4 text-white font-light text-xs transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 uppercase tracking-widest"
                     style={{ backgroundColor: "#FF5B00" }}
@@ -198,7 +225,7 @@ export const Cart: React.FC = () => {
                     onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                   >
                     <FontAwesomeIcon icon={faWhatsapp} />
-                    {isCheckingOut ? "Opening..." : "Order via WhatsApp"}
+                    {isCheckingOut ? "Processing..." : "Order via WhatsApp"}
                   </button>
 
                   <Link
@@ -218,6 +245,121 @@ export const Cart: React.FC = () => {
           )}
         </div>
       </section>
+
+      {/* Checkout Modal */}
+      {showCheckoutForm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-md w-full p-8 space-y-6 border border-gray-200">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-light text-dark tracking-tight">
+                Checkout Details
+              </h2>
+              <button
+                onClick={() => setShowCheckoutForm(false)}
+                className="p-2 hover:bg-gray-100 transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {/* Name */}
+              <div>
+                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-wide">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={customerInfo.name}
+                  onChange={(e) =>
+                    setCustomerInfo({ ...customerInfo, name: e.target.value })
+                  }
+                  className={`w-full px-4 py-2 border font-light text-sm focus:outline-none transition ${
+                    errors.name
+                      ? "border-red-500"
+                      : "border-gray-300 focus:border-primary-500"
+                  }`}
+                  placeholder="Your full name"
+                />
+                {errors.name && (
+                  <p className="text-xs text-red-500 mt-1">{errors.name}</p>
+                )}
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-wide">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={customerInfo.phone}
+                  onChange={(e) =>
+                    setCustomerInfo({ ...customerInfo, phone: e.target.value })
+                  }
+                  className={`w-full px-4 py-2 border font-light text-sm focus:outline-none transition ${
+                    errors.phone
+                      ? "border-red-500"
+                      : "border-gray-300 focus:border-primary-500"
+                  }`}
+                  placeholder="e.g., +234 800 000 0000"
+                />
+                {errors.phone && (
+                  <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
+                )}
+              </div>
+
+              {/* Address */}
+              <div>
+                <label className="block text-xs font-light text-gray-600 mb-2 uppercase tracking-wide">
+                  Delivery Address
+                </label>
+                <textarea
+                  value={customerInfo.address}
+                  onChange={(e) =>
+                    setCustomerInfo({
+                      ...customerInfo,
+                      address: e.target.value,
+                    })
+                  }
+                  rows={3}
+                  className={`w-full px-4 py-2 border font-light text-sm focus:outline-none transition resize-none ${
+                    errors.address
+                      ? "border-red-500"
+                      : "border-gray-300 focus:border-primary-500"
+                  }`}
+                  placeholder="Your full delivery address"
+                />
+                {errors.address && (
+                  <p className="text-xs text-red-500 mt-1">{errors.address}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 pt-6 space-y-3">
+              <button
+                onClick={handleWhatsAppCheckout}
+                disabled={isCheckingOut}
+                className="w-full py-3 text-white font-light text-xs transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 uppercase tracking-widest"
+                style={{ backgroundColor: "#FF5B00" }}
+              >
+                <FontAwesomeIcon icon={faWhatsapp} />
+                {isCheckingOut ? "Processing..." : "Confirm Order"}
+              </button>
+              <button
+                onClick={() => setShowCheckoutForm(false)}
+                className="w-full py-3 border-2 font-light text-xs transition uppercase tracking-widest"
+                style={{
+                  borderColor: "#FF5B00",
+                  color: "#1a1a1a",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
