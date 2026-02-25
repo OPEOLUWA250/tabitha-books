@@ -5,10 +5,13 @@ import { Navbar } from "../../components/store/Navbar";
 import { Footer } from "../../components/store/Footer";
 import { ProductCard } from "../../components/store/ProductCard";
 import { useWishlistStore } from "../../store/wishlistStore";
+import { useCartStore } from "../../store/cartStore";
 
 export const Wishlist: React.FC = () => {
   const items = useWishlistStore((state) => state.items);
   const removeItem = useWishlistStore((state) => state.removeItem);
+  const clearWishlist = useWishlistStore((state) => state.clearWishlist);
+  const addToCart = useCartStore((state) => state.addItem);
 
   return (
     <div className="min-h-screen bg-white">
@@ -69,7 +72,7 @@ export const Wishlist: React.FC = () => {
                       items.forEach((item) => {
                         addToCart(item, 1);
                       });
-                      useWishlistStore.setState({ items: [] });
+                      clearWishlist();
                     }}
                     className="px-8 py-3 bg-primary-500 text-white font-light tracking-wide hover:opacity-90 transition text-sm flex items-center gap-2"
                   >
