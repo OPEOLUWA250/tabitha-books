@@ -296,7 +296,7 @@ export const Home: React.FC = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 to="/shop"
-                className="inline-block px-8 py-3 border-2 border-white text-white font-light tracking-wide hover:bg-white hover:text-black transition text-sm"
+                className="inline-block px-8 py-3 border-2 border-white text-white font-light tracking-wide hover:bg-white hover:text-black transition text-sm rounded-lg"
               >
                 View All Books
               </Link>
