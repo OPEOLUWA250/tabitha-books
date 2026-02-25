@@ -246,7 +246,7 @@ export const Shop: React.FC = () => {
                     setPriceRange([0, 1000000]);
                     setSortBy("newest");
                   }}
-                  className="w-full px-3 py-2 border border-gray-200 text-primary-500 hover:bg-primary-500 hover:text-white text-xs font-light transition"
+                  className="w-full px-3 py-2 border border-gray-200 text-primary-500 hover:bg-primary-500 hover:text-white text-xs font-light transition rounded-lg"
                 >
                   Clear Filters
                 </button>
@@ -258,7 +258,7 @@ export const Shop: React.FC = () => {
               {/* Mobile Filter Button */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden mb-8 flex items-center space-x-2 px-4 py-2 border border-gray-200 text-dark hover:bg-gray-50 transition w-full justify-center text-xs font-light"
+                className="lg:hidden mb-8 flex items-center space-x-2 px-4 py-2 border border-gray-200 text-dark hover:bg-gray-50 transition w-full justify-center text-xs font-light rounded-lg"
               >
                 <Filter className="w-4 h-4" />
                 <span>Filters</span>

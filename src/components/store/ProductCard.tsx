@@ -86,7 +86,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )}
         <motion.button
           onClick={handleWishlist}
-          className="absolute top-4 right-4 p-2 bg-white border border-gray-200 hover:border-primary-500 transition"
+          className="absolute top-4 right-4 p-2 bg-white border border-gray-200 hover:border-primary-500 transition rounded-lg"
           whileHover={{ scale: 1.2, rotate: 10 }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 400, damping: 20 }}
@@ -185,7 +185,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <motion.button
             onClick={handleAddToCart}
             disabled={!product.inStock}
-            className={`p-2 ml-auto transition ${
+            className={`p-2 ml-auto transition rounded-lg ${
               product.inStock
                 ? "border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white"
                 : "border border-gray-200 text-gray-300 cursor-not-allowed"

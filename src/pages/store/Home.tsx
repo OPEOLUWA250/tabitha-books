@@ -140,6 +140,7 @@ export const Home: React.FC = () => {
                   color: "white",
                   borderColor: "#FF5B00",
                   border: "2px solid transparent",
+                  borderRadius: "0.5rem",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = "#FFFFFF";
@@ -174,6 +175,7 @@ export const Home: React.FC = () => {
                   backgroundColor: "#FFFFFF",
                   color: "#FF5B00",
                   border: "2px solid #FF5B00",
+                  borderRadius: "0.5rem",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = "#FF5B00";
@@ -319,7 +321,7 @@ export const Home: React.FC = () => {
               placeholder="your@email.com"
               className="flex-1 px-4 py-3 border border-gray-300 font-light text-sm focus:outline-none focus:border-primary-500 transition"
             />
-            <button className="px-6 py-3 bg-primary-500 text-white font-light tracking-wide hover:bg-primary-600 transition text-sm">
+            <button className="px-6 py-3 bg-primary-500 text-white font-light tracking-wide hover:bg-primary-600 transition text-sm rounded-lg">
               Subscribe
             </button>
           </div>

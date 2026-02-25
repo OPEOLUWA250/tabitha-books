@@ -191,14 +191,14 @@ export const AdminProducts: React.FC = () => {
                       <td className="px-6 py-4 text-xs space-x-2">
                         <button
                           onClick={() => handleEdit(product.id)}
-                          className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
                           disabled={deleting !== null}
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(product.id)}
-                          className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
                           disabled={deleting !== null}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -262,14 +262,14 @@ export const AdminProducts: React.FC = () => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(product.id)}
-                        className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
                         disabled={deleting !== null}
                       >
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(product.id)}
-                        className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="p-1 text-gray-400 hover:text-primary-500 transition disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
                         disabled={deleting !== null}
                       >
                         <Trash2 className="w-4 h-4" />

@@ -127,7 +127,7 @@ export const AdminDashboard: React.FC = () => {
             <p className="text-xs font-light text-gray-600 mt-2">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-4 px-4 py-2 bg-primary-500 text-white font-light text-xs hover:bg-primary-600 transition"
+              className="mt-4 px-4 py-2 bg-primary-500 text-white font-light text-xs hover:bg-primary-600 transition rounded-lg"
             >
               Retry
             </button>
@@ -251,7 +251,7 @@ export const AdminDashboard: React.FC = () => {
                             </Link>
                             <button
                               onClick={() => handleDelete(product.id)}
-                              className="p-1 text-gray-400 hover:text-primary-500 transition inline-flex disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="p-1 text-gray-400 hover:text-primary-500 transition inline-flex disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
                               disabled={deleting !== null}
                             >
                               <Trash2 className="w-4 h-4" />
@@ -311,7 +311,7 @@ export const AdminDashboard: React.FC = () => {
                           </Link>
                           <button
                             onClick={() => handleDelete(product.id)}
-                            className="p-1 text-gray-400 hover:text-primary-500 transition inline-flex disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="p-1 text-gray-400 hover:text-primary-500 transition inline-flex disabled:opacity-50 disabled:cursor-not-allowed rounded-lg"
                             disabled={deleting !== null}
                           >
                             <Trash2 className="w-4 h-4" />

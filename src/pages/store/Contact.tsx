@@ -160,7 +160,7 @@ export const Contact: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-2 bg-primary-500 text-white font-light text-xs hover:bg-primary-600 transition uppercase tracking-widest"
+                  className="w-full py-2 bg-primary-500 text-white font-light text-xs hover:bg-primary-600 transition uppercase tracking-widest rounded-lg"
                 >
                   Send Message
                 </button>

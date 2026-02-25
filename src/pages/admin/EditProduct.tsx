@@ -300,14 +300,14 @@ export const EditProduct: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/admin/products")}
-                  className="flex-1 px-6 py-2 bg-primary-500 text-white font-light text-xs hover:bg-primary-600 transition uppercase tracking-widest"
+                  className="flex-1 px-6 py-2 bg-primary-500 text-white font-light text-xs hover:bg-primary-600 transition uppercase tracking-widest rounded-lg"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 px-6 py-2 border border-gray-200 text-dark font-light text-xs hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest"
+                  className="flex-1 px-6 py-2 border border-gray-200 text-dark font-light text-xs hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest rounded-lg"
                 >
                   {loading ? "Updating..." : "Update"}
                 </button>

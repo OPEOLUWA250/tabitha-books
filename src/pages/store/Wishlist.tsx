@@ -50,7 +50,7 @@ export const Wishlist: React.FC = () => {
                     <ProductCard product={product} />
                     <button
                       onClick={() => removeItem(product.id)}
-                      className="absolute top-4 right-4 p-2 bg-white border border-gray-200 hover:border-red-500 transition z-10"
+                      className="absolute top-4 right-4 p-2 bg-white border border-gray-200 hover:border-red-500 transition z-10 rounded-lg"
                       aria-label="Remove from wishlist"
                     >
                       <Trash2 className="w-4 h-4 text-red-500 hover:text-red-600" />
@@ -63,7 +63,7 @@ export const Wishlist: React.FC = () => {
                 <div className="flex gap-4 justify-center">
                   <Link
                     to="/shop"
-                    className="px-8 py-3 border-2 border-primary-500 text-primary-500 font-light tracking-wide hover:bg-primary-500 hover:text-white transition text-sm"
+                    className="px-8 py-3 border-2 border-primary-500 text-primary-500 font-light tracking-wide hover:bg-primary-500 hover:text-white transition text-sm rounded-lg"
                   >
                     Continue Shopping
                   </Link>
@@ -74,7 +74,7 @@ export const Wishlist: React.FC = () => {
                       });
                       clearWishlist();
                     }}
-                    className="px-8 py-3 bg-primary-500 text-white font-light tracking-wide hover:opacity-90 transition text-sm flex items-center gap-2"
+                    className="px-8 py-3 bg-primary-500 text-white font-light tracking-wide hover:opacity-90 transition text-sm flex items-center gap-2 rounded-lg"
                   >
                     Add All to Cart
                     <ArrowRight className="w-4 h-4" />

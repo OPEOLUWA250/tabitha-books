@@ -155,7 +155,7 @@ export const Cart: React.FC = () => {
                                 Math.max(1, item.quantity - 1),
                               )
                             }
-                            className="p-1 bg-white transition border-r border-gray-200"
+                            className="p-1 bg-white transition border-r border-gray-200 rounded-l-lg"
                             style={{ color: "#1a1a1a" }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.backgroundColor = "#FF5B00";
@@ -175,7 +175,7 @@ export const Cart: React.FC = () => {
                             onClick={() =>
                               updateQuantity(item.id, item.quantity + 1)
                             }
-                            className="p-1 bg-white transition border-l border-gray-200"
+                            className="p-1 bg-white transition border-l border-gray-200 rounded-r-lg"
                             style={{ color: "#1a1a1a" }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.backgroundColor = "#FF5B00";
@@ -217,7 +217,7 @@ export const Cart: React.FC = () => {
                   <button
                     onClick={() => setShowCheckoutForm(true)}
                     disabled={isCheckingOut}
-                    className="w-full py-4 text-white font-light text-xs transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 uppercase tracking-widest"
+                    className="w-full py-4 text-white font-light text-xs transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 uppercase tracking-widest rounded-lg"
                     style={{ backgroundColor: "#FF5B00" }}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.opacity = "0.9")
@@ -230,7 +230,7 @@ export const Cart: React.FC = () => {
 
                   <Link
                     to="/shop"
-                    className="block w-full py-4 font-light text-xs text-center uppercase tracking-widest"
+                    className="block w-full py-4 font-light text-xs text-center uppercase tracking-widest rounded-lg"
                     style={{
                       borderColor: "#FF5B00",
                       color: "#1a1a1a",
@@ -340,7 +340,7 @@ export const Cart: React.FC = () => {
               <button
                 onClick={handleWhatsAppCheckout}
                 disabled={isCheckingOut}
-                className="w-full py-3 text-white font-light text-xs transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 uppercase tracking-widest"
+                className="w-full py-3 text-white font-light text-xs transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 uppercase tracking-widest rounded-lg"
                 style={{ backgroundColor: "#FF5B00" }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} />
@@ -348,7 +348,7 @@ export const Cart: React.FC = () => {
               </button>
               <button
                 onClick={() => setShowCheckoutForm(false)}
-                className="w-full py-3 border-2 font-light text-xs transition uppercase tracking-widest"
+                className="w-full py-3 border-2 font-light text-xs transition uppercase tracking-widest rounded-lg"
                 style={{
                   borderColor: "#FF5B00",
                   color: "#1a1a1a",
