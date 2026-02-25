@@ -43,7 +43,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             to={isAdmin ? "/admin" : "/"}
             className="flex items-center space-x-3 group"
           >
-            <span className="text-2xl">📚</span>
+            <img
+              src="/tabitha-favicon.svg"
+              alt="Tabitha Books"
+              className="w-6 h-6 group-hover:opacity-80 transition"
+            />
             <span className="text-lg font-light tracking-widest text-dark group-hover:text-primary-500 transition">
               TABITHA
             </span>
