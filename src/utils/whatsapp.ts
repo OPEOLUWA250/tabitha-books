@@ -32,8 +32,7 @@ export const generateWhatsAppMessage = (
     message += "\n";
   });
 
-  message += `\n💰 *Total: ₦${finalTotal.toLocaleString()}*\n\n`;
-  message += "Please confirm this order and we'll process it immediately.";
+  message += `\n💰 *Total: ₦${finalTotal.toLocaleString()}*`;
 
   return encodeURIComponent(message);
 };
