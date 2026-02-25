@@ -32,69 +32,78 @@ export const Contact: React.FC = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 border-b-4 border-primary-500">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-gray-900 mb-4">
+          <div className="mb-16">
+            <h1 className="text-5xl font-light text-dark mb-2 tracking-tight">
               Get in Touch
             </h1>
-            <p className="text-lg text-gray-600">
+            <div className="w-12 h-1 bg-primary-500 mb-8"></div>
+            <p className="text-xs font-light text-gray-600 tracking-wide">
               We'd love to hear from you. Drop us a message anytime.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <Phone className="w-8 h-8 text-primary-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Phone</h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16">
+            <div className="border border-gray-200 p-6 text-center hover:border-primary-500 transition">
+              <Phone className="w-5 h-5 text-primary-500 mx-auto mb-3" />
+              <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
+                Phone
+              </h3>
               <a
                 href="tel:+2348180129670"
-                className="text-primary-600 hover:underline"
+                className="text-xs font-light text-gray-600 hover:text-primary-500 transition"
               >
                 +234 818 012 9670
               </a>
             </div>
 
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <Mail className="w-8 h-8 text-primary-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Email</h3>
+            <div className="border border-gray-200 p-6 text-center hover:border-primary-500 transition">
+              <Mail className="w-5 h-5 text-primary-500 mx-auto mb-3" />
+              <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
+                Email
+              </h3>
               <a
-                href="mailto:hello@mashafy.com"
-                className="text-primary-600 hover:underline"
+                href="mailto:hello@tabithabooks.com"
+                className="text-xs font-light text-gray-600 hover:text-primary-500 transition"
               >
-                hello@mashafy.com
+                hello@tabithabooks.com
               </a>
             </div>
 
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <MapPin className="w-8 h-8 text-primary-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Location</h3>
-              <p className="text-gray-600">Lagos, Nigeria</p>
+            <div className="border border-gray-200 p-6 text-center hover:border-primary-500 transition">
+              <MapPin className="w-5 h-5 text-primary-500 mx-auto mb-3" />
+              <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
+                Location
+              </h3>
+              <p className="text-xs font-light text-gray-600">Lagos, Nigeria</p>
             </div>
 
-            <div className="bg-gray-50 p-6 rounded-lg text-center">
-              <Send className="w-8 h-8 text-primary-600 mx-auto mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">WhatsApp</h3>
+            <div className="border border-gray-200 p-6 text-center hover:border-primary-500 transition">
+              <Send className="w-5 h-5 text-primary-500 mx-auto mb-3" />
+              <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
+                WhatsApp
+              </h3>
               <a
                 href="https://wa.me/2348180129670"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-600 hover:underline"
+                className="text-xs font-light text-gray-600 hover:text-primary-500 transition"
               >
                 Chat Now
               </a>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             {/* Contact Form */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-sm font-light text-dark mb-8 uppercase tracking-widest">
                 Send us a Message
               </h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <label className="block text-xs font-light text-dark mb-2 uppercase tracking-widest">
                     Name
                   </label>
                   <input
@@ -103,12 +112,12 @@ export const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                    className="w-full px-3 py-2 border border-gray-200 text-xs font-light focus:outline-none focus:border-primary-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <label className="block text-xs font-light text-dark mb-2 uppercase tracking-widest">
                     Email
                   </label>
                   <input
@@ -117,12 +126,12 @@ export const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                    className="w-full px-3 py-2 border border-gray-200 text-xs font-light focus:outline-none focus:border-primary-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <label className="block text-xs font-light text-dark mb-2 uppercase tracking-widest">
                     Subject
                   </label>
                   <input
@@ -131,12 +140,12 @@ export const Contact: React.FC = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                    className="w-full px-3 py-2 border border-gray-200 text-xs font-light focus:outline-none focus:border-primary-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <label className="block text-xs font-light text-dark mb-2 uppercase tracking-widest">
                     Message
                   </label>
                   <textarea
@@ -145,19 +154,19 @@ export const Contact: React.FC = () => {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                    className="w-full px-3 py-2 border border-gray-200 text-xs font-light focus:outline-none focus:border-primary-500"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 bg-primary-600 text-white font-bold rounded-lg hover:bg-primary-700 transition"
+                  className="w-full py-2 bg-primary-500 text-white font-light text-xs hover:bg-primary-600 transition uppercase tracking-widest"
                 >
                   Send Message
                 </button>
 
                 {submitted && (
-                  <div className="p-3 bg-green-100 text-green-700 rounded-lg text-center">
+                  <div className="p-3 bg-primary-50 text-primary-700 text-center text-xs font-light border border-primary-200">
                     ✓ Message sent! We'll get back to you soon.
                   </div>
                 )}
@@ -166,45 +175,45 @@ export const Contact: React.FC = () => {
 
             {/* FAQs */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-sm font-light text-dark mb-8 uppercase tracking-widest">
                 Frequently Asked Questions
               </h2>
               <div className="space-y-4">
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">
+                <div className="border border-gray-200 p-4">
+                  <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
                     What's your return policy?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs font-light">
                     We offer a 30-day return policy for all items in original
                     condition.
                   </p>
                 </div>
 
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">
+                <div className="border border-gray-200 p-4">
+                  <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
                     How long does shipping take?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs font-light">
                     Delivery typically takes 3-5 business days within Lagos, and
                     5-7 business days nationwide.
                   </p>
                 </div>
 
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">
+                <div className="border border-gray-200 p-4">
+                  <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
                     Do you ship internationally?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs font-light">
                     Currently, we ship within Nigeria. International shipping
                     coming soon!
                   </p>
                 </div>
 
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">
+                <div className="border border-gray-200 p-4">
+                  <h3 className="font-light text-xs text-dark mb-2 uppercase tracking-widest">
                     What payment methods do you accept?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs font-light">
                     We accept bank transfers, card payments, and mobile money
                     transfers.
                   </p>

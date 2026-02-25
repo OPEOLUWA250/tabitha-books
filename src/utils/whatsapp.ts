@@ -1,12 +1,12 @@
 import type { CartItem } from "./supabase";
 
-const WHATSAPP_NUMBER = "2348027842294"; // Mashafy WhatsApp number
+const WHATSAPP_NUMBER = "2348180018752"; // Tabitha Books WhatsApp number
 
 export const generateWhatsAppMessage = (
   cartItems: CartItem[],
   finalTotal: number,
 ): string => {
-  let message = "🎉 *Mashafy Lifestyle Order*\n\n";
+  let message = "📚 *Tabitha Books Order*\n\n";
   message += "📦 *Order Items:*\n";
 
   cartItems.forEach((item, index) => {

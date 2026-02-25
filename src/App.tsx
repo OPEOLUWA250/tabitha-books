@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -10,6 +11,7 @@ import { useEffect } from "react";
 import { Home } from "./pages/store/Home";
 import { Shop } from "./pages/store/Shop";
 import { Cart } from "./pages/store/Cart";
+import { Wishlist } from "./pages/store/Wishlist";
 import { About } from "./pages/store/About";
 import { Contact } from "./pages/store/Contact";
 
@@ -22,6 +24,17 @@ import { EditProduct } from "./pages/admin/EditProduct";
 // Components
 import { FloatingButtons } from "./components/FloatingButtons";
 import { getProducts } from "./utils/supabase";
+
+// Scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   useEffect(() => {
@@ -38,12 +51,14 @@ function App() {
 
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <ScrollToTop />
       <FloatingButtons />
       <Routes>
         {/* Store Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
