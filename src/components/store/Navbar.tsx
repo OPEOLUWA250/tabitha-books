@@ -10,7 +10,6 @@ import {
   Heart,
 } from "lucide-react";
 import { useCartStore } from "../../store/cartStore";
-import { useWishlistStore } from "../../store/wishlistStore";
 
 interface NavbarProps {
   isAdmin?: boolean;

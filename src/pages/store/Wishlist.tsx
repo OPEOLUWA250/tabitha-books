@@ -5,20 +5,10 @@ import { Navbar } from "../../components/store/Navbar";
 import { Footer } from "../../components/store/Footer";
 import { ProductCard } from "../../components/store/ProductCard";
 import { useWishlistStore } from "../../store/wishlistStore";
-import { useCartStore } from "../../store/cartStore";
 
 export const Wishlist: React.FC = () => {
   const items = useWishlistStore((state) => state.items);
   const removeItem = useWishlistStore((state) => state.removeItem);
-  const addToCart = useCartStore((state) => state.addItem);
-
-  const handleAddToCart = (productId: string) => {
-    const product = items.find((item) => item.id === productId);
-    if (product) {
-      addToCart(product, 1);
-      removeItem(productId);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-white">

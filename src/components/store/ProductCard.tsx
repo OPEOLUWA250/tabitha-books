@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ShoppingCart, Heart, Star } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import type { Product } from "../../types";
 import { useCartStore } from "../../store/cartStore";

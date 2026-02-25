@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Navbar } from "../../components/store/Navbar";
 import { Footer } from "../../components/store/Footer";
 import { ProductCard } from "../../components/store/ProductCard";
 import type { Product } from "../../types";
-import { ArrowRight, Zap, Shield, Heart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getProducts } from "../../utils/supabase";
 
 export const Home: React.FC = () => {
@@ -256,7 +256,7 @@ export const Home: React.FC = () => {
                     animate={{ opacity: 1, scale: 1 }}
                   />
                 ))
-              : products.slice(0, 4).map((product, index) => (
+              : products.slice(0, 4).map((product) => (
                   <motion.div
                     key={product.id}
                     className="w-full"
