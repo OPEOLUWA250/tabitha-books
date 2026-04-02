@@ -1,8 +1,15 @@
 /**
  * Utility functions for handling image URLs from Supabase and other sources
+ * Designed to work during build time and runtime with error resilience
  */
 
 import { supabase } from "./supabase";
+
+// Get Supabase URL from environment - only available at runtime
+const SUPABASE_URL =
+  typeof window === "undefined" && typeof process !== "undefined"
+    ? (process.env?.NEXT_PUBLIC_SUPABASE_URL as string)
+    : undefined;
 
 /**
  * Generate a signed URL for Supabase storage
@@ -48,30 +55,43 @@ export async function getSignedSupabaseUrl(
       }
     }
 
-    console.log(`Generating signed URL for: ${cleanPath}`);
-
-    // Generate signed URL (works even for public buckets, and works with private ones)
-    const { data, error } = await supabase.storage
-      .from(bucketName)
-      .createSignedUrl(cleanPath, expiresIn);
-
-    if (error) {
-      console.error(
-        `Error generating signed URL for ${cleanPath}:`,
-        error.message,
-      );
-      return null;
+    // Try to get the client - this may fail during build
+    let client: any;
+    try {
+      client = supabase;
+    } catch (e) {
+      // During build, supabase may not be available
+      console.warn("Supabase client not available during build");
+      return imagePath; // Return original path as fallback
     }
 
-    if (data?.signedUrl) {
-      console.log(`✅ Signed URL generated successfully for ${cleanPath}`);
-      return data.signedUrl;
+    if (!client || !client.storage) {
+      return imagePath; // Return original as fallback
     }
 
-    return null;
+    try {
+      const { data, error } = await client.storage
+        .from(bucketName)
+        .createSignedUrl(cleanPath, expiresIn);
+
+      if (error) {
+        console.warn(`Could not create signed URL for ${cleanPath}`);
+        // Return public URL as fallback
+        return getSupabaseImageUrl(imagePath);
+      }
+
+      if (data?.signedUrl) {
+        return data.signedUrl;
+      }
+
+      return getSupabaseImageUrl(imagePath);
+    } catch (supabaseErr) {
+      console.warn(`Supabase operation failed, using public URL fallback`);
+      return getSupabaseImageUrl(imagePath);
+    }
   } catch (err) {
-    console.error(`Exception generating signed URL:`, err);
-    return null;
+    console.warn(`Error in getSignedSupabaseUrl, using fallback`);
+    return imagePath;
   }
 }
 
@@ -84,21 +104,17 @@ export function constructSupabasePublicUrl(
   bucketName: string = "books",
   supabaseUrl?: string,
 ): string {
-  // Get Supabase URL from environment or use provided one
-  const baseUrl = supabaseUrl || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const baseUrl = supabaseUrl || SUPABASE_URL;
 
   if (!baseUrl) {
-    console.warn("Supabase URL not found, returning fileName as fallback");
     return fileName;
   }
 
-  // Ensure fileName is properly encoded for URL
   const encodedPath = fileName
     .split("/")
     .map((part) => encodeURIComponent(part))
     .join("/");
 
-  // Construct proper Supabase public URL format
   return `${baseUrl}/storage/v1/object/public/${bucketName}/${encodedPath}`;
 }
 
@@ -138,14 +154,11 @@ export function getSupabaseImageUrl(
   // If it ends with a filename (no slashes at end), it might be just a path
   // Try to construct a full Supabase URL
   if (url.includes("images/") || url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-    // This might be a partial path, try to construct full URL
-    const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    if (baseUrl) {
-      // If it doesn't already start with /storage, add it
+    if (SUPABASE_URL) {
       const path = url.startsWith("/storage")
         ? url
         : `/storage/v1/object/public/books/${url}`;
-      return `${baseUrl}${path}`;
+      return `${SUPABASE_URL}${path}`;
     }
   }
 
@@ -155,8 +168,7 @@ export function getSupabaseImageUrl(
   }
 
   // Last resort: assume it's a path and construct URL
-  const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  if (baseUrl && url.length > 0) {
+  if (SUPABASE_URL && url.length > 0) {
     return constructSupabasePublicUrl(url);
   }
 
