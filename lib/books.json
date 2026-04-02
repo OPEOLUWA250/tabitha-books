@@ -1,0 +1,146 @@
+{
+  "categories": [
+    {
+      "id": "leadership",
+      "name": "Leadership",
+      "description": "Inspire and lead with vision"
+    },
+    {
+      "id": "fiction",
+      "name": "Fiction",
+      "description": "Stories that captivate the soul"
+    },
+    {
+      "id": "lifestyle",
+      "name": "Lifestyle",
+      "description": "Live intentionally and mindfully"
+    },
+    {
+      "id": "self-help",
+      "name": "Self-Help",
+      "description": "Transform yourself from within"
+    }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "category": "self-help",
+      "price": 2500,
+      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop",
+      "description": "Transform your life through small, powerful habits that compound over time. Learn the practical science behind habit formation.",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "The Midnight Library",
+      "author": "Matt Haig",
+      "category": "fiction",
+      "price": 2200,
+      "image": "https://images.unsplash.com/photo-1507842217343-583f7270bfba?w=300&h=450&fit=crop",
+      "description": "A soul-stirring novel about second chances and the infinite possibilities of life. A must-read for the mindful reader.",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "Dare to Lead",
+      "author": "Brené Brown",
+      "category": "leadership",
+      "price": 2400,
+      "image": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=450&fit=crop",
+      "description": "Lead with courage and vulnerability. A transformative guide to courageous leadership in the modern world.",
+      "featured": true
+    },
+    {
+      "id": 4,
+      "title": "The Art of Living",
+      "author": "Thich Nhat Hanh",
+      "category": "lifestyle",
+      "price": 1800,
+      "image": "https://images.unsplash.com/photo-1507842217343-583f7270bfba?w=300&h=450&fit=crop",
+      "description": "Discover mindfulness and peace through simple yet profound teachings. Transform your daily life into a spiritual practice.",
+      "featured": true
+    },
+    {
+      "id": 5,
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "category": "fiction",
+      "price": 2300,
+      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop",
+      "description": "An epic survival story set in space. A thrilling page-turner that combines science, humor, and heart.",
+      "featured": false
+    },
+    {
+      "id": 6,
+      "title": "Good to Great",
+      "author": "Jim Collins",
+      "category": "leadership",
+      "price": 2600,
+      "image": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=450&fit=crop",
+      "description": "Why some companies make the leap and others don't. Essential reading for leaders and organizations.",
+      "featured": false
+    },
+    {
+      "id": 7,
+      "title": "The Power of Now",
+      "author": "Eckhart Tolle",
+      "category": "self-help",
+      "price": 2100,
+      "image": "https://images.unsplash.com/photo-1507842217343-583f7270bfba?w=300&h=450&fit=crop",
+      "description": "Transcend the noise in your mind and live in the present moment. A spiritual guide for modern living.",
+      "featured": false
+    },
+    {
+      "id": 8,
+      "title": "The House in the Cerulean Sea",
+      "author": "TJ Klune",
+      "category": "fiction",
+      "price": 2200,
+      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop",
+      "description": "A heartwarming tale of found family and magical adventure. Perfect for readers seeking hope and joy.",
+      "featured": false
+    },
+    {
+      "id": 9,
+      "title": "Mindful Living",
+      "author": "Jon Kabat-Zinn",
+      "category": "lifestyle",
+      "price": 1900,
+      "image": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=450&fit=crop",
+      "description": "Integrate mindfulness into every aspect of your life. Practical exercises and ancient wisdom combined.",
+      "featured": false
+    },
+    {
+      "id": 10,
+      "title": "The Innovator's Dilemma",
+      "author": "Clayton Christensen",
+      "category": "leadership",
+      "price": 2700,
+      "image": "https://images.unsplash.com/photo-1507842217343-583f7270bfba?w=300&h=450&fit=crop",
+      "description": "Understand why great companies fail. Critical insights for leaders navigating disruption.",
+      "featured": false
+    },
+    {
+      "id": 11,
+      "title": "Four Thousand Weeks",
+      "author": "Oliver Burkeman",
+      "category": "self-help",
+      "price": 2200,
+      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=450&fit=crop",
+      "description": "A refreshing perspective on time management and living a meaningful life. Rethink productivity.",
+      "featured": false
+    },
+    {
+      "id": 12,
+      "title": "Educated",
+      "author": "Tara Westover",
+      "category": "fiction",
+      "price": 2400,
+      "image": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=450&fit=crop",
+      "description": "A powerful memoir of survival, education, and self-discovery. An inspiring true story that moves the soul.",
+      "featured": false
+    }
+  ]
+}

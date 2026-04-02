@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <defs>
+    <style>
+      .tb-bg { fill: #f97316; }
+      .tb-letter { fill: white; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 800; font-size: 90px; letter-spacing: -2px; }
+      .tb-accent { fill: white; opacity: 0.9; }
+    </style>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle class="tb-bg" cx="90" cy="90" r="90"/>
+  
+  <!-- Letter "T" - Large and prominent -->
+  <text x="90" y="130" class="tb-letter" text-anchor="middle" alignment-baseline="middle">T</text>
+  
+  <!-- Small book accent in corner -->
+  <rect class="tb-accent" x="130" y="30" width="8" height="20" rx="1"/>
+  <rect class="tb-accent" x="140" y="30" width="8" height="20" rx="1"/>
+  <line class="tb-accent" x1="127" y1="40" x2="151" y2="40" stroke-width="2" stroke-linecap="round"/>
+</svg>
