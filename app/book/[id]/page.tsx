@@ -136,11 +136,11 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
   };
 
   const priceInNaira = `₦${book.price.toLocaleString()}`;
-  
+
   // Use signed URL if available, fallback to public URL
   const displayImage = signedUrl || getSupabaseImageUrl(book.image);
-  
-  // Build WhatsApp message
+
+  // Build WhatsApp message with proper encoding
   const whatsappMessage = `Hi! I'm interested in "${book.title}" by ${book.author}. Price: ${priceInNaira}. Can you help me order?`;
   const whatsappUrl = `https://wa.me/08180018752?text=${encodeURIComponent(whatsappMessage)}`;
 
