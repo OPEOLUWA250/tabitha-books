@@ -62,7 +62,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 py-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-6 items-start">
             {/* Left: Text and CTA */}
-              <div className="space-y-8 lg:space-y-6 text-center lg:text-left px-4 sm:px-0 pt-10 lg:pt-20">
+              <div className="space-y-8 lg:space-y-6 text-center lg:text-left pt-10 lg:pt-20 flex flex-col items-center lg:items-start">
               <div className="space-y-4">
                 <div className="inline-block lg:inline-block">
                   <span className="text-xs sm:text-sm font-light text-orange-600 uppercase tracking-widest px-4 py-2 bg-orange-100 rounded-full animate-fade-in-up">
@@ -84,7 +84,7 @@ export default function HomePage() {
                 meaningful change in your life.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4 animate-fade-in-up animation-delay-300 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4 animate-fade-in-up animation-delay-300 w-full">
                 <a
                   href="/browse"
                   className="w-full sm:w-auto px-8 py-3 bg-linear-to-r from-orange-600 to-orange-500 text-white font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 transform hover:-translate-y-1 shadow-lg text-center"
@@ -162,7 +162,7 @@ export default function HomePage() {
       {/* ===== FEATURED BOOKS SECTION ===== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
         <div className="mb-16 md:mb-20 space-y-3">
-          <h2 className="font-sans text-4xl md:text-5xl font-light text-gray-900">
+          <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-gray-900">
             ⭐ Featured Collection
           </h2>
           <p className="text-gray-600 text-lg font-light max-w-2xl">
