@@ -84,16 +84,16 @@ export default function HomePage() {
                 meaningful change in your life.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-4 animate-fade-in-up animation-delay-300">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4 animate-fade-in-up animation-delay-300 w-full sm:w-auto">
                 <a
                   href="/browse"
-                  className="px-6 py-3 bg-linear-to-r from-orange-600 to-orange-500 text-white font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 transform hover:-translate-y-1 shadow-lg"
+                  className="w-full sm:w-auto px-8 py-3 bg-linear-to-r from-orange-600 to-orange-500 text-white font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 transform hover:-translate-y-1 shadow-lg text-center"
                 >
                   🛍️ Explore Now
                 </a>
                 <a
                   href="/browse"
-                  className="px-6 py-3 border-2 border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-linear-to-r hover:from-orange-50 hover:to-orange-50 transition-all duration-300 hover:scale-105 transform hover:-translate-y-1 group"
+                  className="w-full sm:w-auto px-8 py-3 border-2 border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-linear-to-r hover:from-orange-50 hover:to-orange-50 transition-all duration-300 hover:scale-105 transform hover:-translate-y-1 group text-center"
                 >
                   📚 Browse
                   <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform duration-300">

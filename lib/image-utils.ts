@@ -5,11 +5,8 @@
 
 import { supabase } from "./supabase";
 
-// Get Supabase URL from environment - only available at runtime
-const SUPABASE_URL =
-  typeof window === "undefined" && typeof process !== "undefined"
-    ? (process.env?.NEXT_PUBLIC_SUPABASE_URL as string)
-    : undefined;
+// Get Supabase URL - use NEXT_PUBLIC env var directly since it's public
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 /**
  * Generate a signed URL for Supabase storage
@@ -26,30 +23,38 @@ export async function getSignedSupabaseUrl(
     }
 
     // Extract path from full URLs - convert back to storage path
-    let cleanPath = imagePath;
+    let cleanPath = imagePath.trim();
 
     // If it's already a full URL, extract just the path
-    if (imagePath.startsWith("http")) {
-      // Example: https://pmsazwxcapmheqskrkfy.supabase.co/storage/v1/object/public/books/images/XXX.jpeg
-      // Extract: images/XXX.jpeg
-      const urlObj = new URL(imagePath);
-      const pathParts = urlObj.pathname.split("/");
+    if (cleanPath.startsWith("http")) {
+      try {
+        const urlObj = new URL(cleanPath);
+        const pathParts = urlObj.pathname.split("/");
 
-      // Find 'public' and take everything after it except the bucket name
-      // Format is typically: /storage/v1/object/public/bucketName/path/to/file
-      const publicIndex = pathParts.indexOf("public");
-      if (publicIndex !== -1 && publicIndex + 2 < pathParts.length) {
-        // Skip 'public' and bucket name, take the rest
-        cleanPath = pathParts.slice(publicIndex + 2).join("/");
-        // URL decode percent-encoded characters
-        cleanPath = decodeURIComponent(cleanPath);
+        // Find 'public' and take everything after it
+        // Format is typically: /storage/v1/object/public/bucketName/path/to/file
+        const publicIndex = pathParts.indexOf("public");
+        if (publicIndex !== -1 && publicIndex + 2 < pathParts.length) {
+          // Skip 'public' and bucket name, take the rest
+          cleanPath = pathParts.slice(publicIndex + 2).join("/");
+          // URL decode percent-encoded characters
+          cleanPath = decodeURIComponent(cleanPath);
+        }
+      } catch (e) {
+        // URL parsing failed, use as-is
       }
     } else {
-      // Handle relative paths
-      if (imagePath.startsWith(`${bucketName}/`)) {
-        cleanPath = imagePath.substring(bucketName.length + 1);
+      // Handle relative paths like /books/filename.jpg
+      if (cleanPath.startsWith("/books/")) {
+        cleanPath = cleanPath.substring(7); // Remove /books/
       }
 
+      // If it doesn't start with images/, add it
+      if (!cleanPath.startsWith("images/")) {
+        cleanPath = `images/${cleanPath}`;
+      }
+
+      // Remove leading slashes
       if (cleanPath.startsWith("/")) {
         cleanPath = cleanPath.substring(1);
       }
@@ -62,11 +67,11 @@ export async function getSignedSupabaseUrl(
     } catch (e) {
       // During build, supabase may not be available
       console.warn("Supabase client not available during build");
-      return imagePath; // Return original path as fallback
+      return null; // Return null to trigger fallback
     }
 
     if (!client || !client.storage) {
-      return imagePath; // Return original as fallback
+      return null; // Return null to trigger fallback
     }
 
     try {
@@ -75,23 +80,23 @@ export async function getSignedSupabaseUrl(
         .createSignedUrl(cleanPath, expiresIn);
 
       if (error) {
-        console.warn(`Could not create signed URL for ${cleanPath}`);
-        // Return public URL as fallback
-        return getSupabaseImageUrl(imagePath);
+        console.warn(`Could not create signed URL for ${cleanPath}:`, error.message);
+        // Return null to use public URL fallback
+        return null;
       }
 
       if (data?.signedUrl) {
         return data.signedUrl;
       }
 
-      return getSupabaseImageUrl(imagePath);
+      return null;
     } catch (supabaseErr) {
-      console.warn(`Supabase operation failed, using public URL fallback`);
-      return getSupabaseImageUrl(imagePath);
+      console.warn(`Supabase operation failed:`, supabaseErr);
+      return null;
     }
   } catch (err) {
-    console.warn(`Error in getSignedSupabaseUrl, using fallback`);
-    return imagePath;
+    console.warn(`Error in getSignedSupabaseUrl:`, err);
+    return null;
   }
 }
 
@@ -130,7 +135,7 @@ export function getSupabaseImageUrl(
   }
 
   // Ensure it's a string
-  const url = String(imageUrl).trim();
+  let url = String(imageUrl).trim();
 
   if (!url) {
     return null;
@@ -151,29 +156,40 @@ export function getSupabaseImageUrl(
     return url.startsWith("http") ? url : `https://${url}`;
   }
 
-  // If it ends with a filename (no slashes at end), it might be just a path
-  // Try to construct a full Supabase URL
-  if (url.includes("images/") || url.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-    if (SUPABASE_URL) {
-      const path = url.startsWith("/storage")
-        ? url
-        : `/storage/v1/object/public/books/${url}`;
-      return `${SUPABASE_URL}${path}`;
-    }
-  }
-
   // If it looks like a relative path with supabase in it, return as-is
   if (url.includes("/storage/")) {
     return url;
   }
 
-  // Last resort: assume it's a path and construct URL
-  if (SUPABASE_URL && url.length > 0) {
-    return constructSupabasePublicUrl(url);
+  // Build full Supabase URL
+  if (!SUPABASE_URL) {
+    return url; // Can't construct without SUPABASE_URL
   }
 
-  // Return as-is and let the browser handle it
-  return url;
+  let path = url;
+
+  // If it starts with /books, convert to images format
+  if (url.startsWith("/books/")) {
+    path = url.substring(7); // Remove /books/
+  }
+
+  // If it starts with /, remove it
+  if (path.startsWith("/")) {
+    path = path.substring(1);
+  }
+
+  // If it doesn't start with images/, add it
+  if (!path.startsWith("images/")) {
+    path = `images/${path}`;
+  }
+
+  // Encode the path properly - split by /, encode each part, rejoin
+  const encodedPath = path
+    .split("/")
+    .map((part) => encodeURIComponent(part))
+    .join("/");
+
+  return `${SUPABASE_URL}/storage/v1/object/public/books/${encodedPath}`;
 }
 
 /**

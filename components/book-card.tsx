@@ -30,8 +30,12 @@ export function BookCard({
 }: BookCardProps) {
   const { addItem } = useCart();
 
-  // Generate signed URL automatically
+  // Generate signed URL automatically - use immediate fallback
   const signedUrl = useSignedUrl(image);
+  
+  // Use fallback immediately while signed URL is being generated
+  const fallbackUrl = getSupabaseImageUrl(image);
+  const displayImage = signedUrl || fallbackUrl;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -45,9 +49,6 @@ export function BookCard({
   };
 
   const priceInNaira = `₦${price.toLocaleString()}`;
-
-  // Use signed URL first, fall back to formatted public URL as backup
-  const displayImage = signedUrl || getSupabaseImageUrl(image);
 
   return (
     <Link href={`/book/${id}`}>
@@ -64,11 +65,7 @@ export function BookCard({
               priority={false}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               onError={() => {
-                console.error(`❌ Image failed to load for "${title}":`, {
-                  signedUrl: !!signedUrl,
-                  fallbackUrl: !!getSupabaseImageUrl(image),
-                  attempted: displayImage?.substring(0, 100),
-                });
+                console.warn(`⚠️ Image failed to load for "${title}"`);
               }}
               onLoad={() => {
                 console.log(`✅ Image loaded for "${title}"`);

@@ -3,10 +3,98 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { useCart } from "@/hooks/use-cart";
+import { useSignedUrl } from "@/hooks/use-signed-url";
+import { getSupabaseImageUrl } from "@/lib/image-utils";
 import Image from "next/image";
 import Link from "next/link";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState } from "react";
+
+// Cart Item Component - handles hooks properly
+function CartItemRow({ item, index, updateQuantity, removeItem }: any) {
+  const signedUrl = useSignedUrl(item.image || "");
+  const displayImage = signedUrl || getSupabaseImageUrl(item.image);
+
+  return (
+    <div
+      className="flex gap-6 pb-6 border-b border-gray-200 last:border-b-0 animate-fade-in-up hover-lift transition-all duration-300"
+      style={{
+        animationDelay: `${index * 100}ms`,
+      }}
+    >
+      {/* Image */}
+      <div className="relative w-20 h-28 sm:w-24 sm:h-32 shrink-0 overflow-hidden rounded-lg hover-scale bg-gray-100">
+        {displayImage ? (
+          <Image
+            src={displayImage}
+            alt={item.title}
+            fill
+            className="object-cover"
+            crossOrigin="anonymous"
+            onError={() => console.error(`Cart image failed for "${item.title}"`)}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-50">
+            <span className="text-xs text-orange-600 font-light">Cover</span>
+          </div>
+        )}
+      </div>
+
+      {/* Details */}
+      <div className="flex-1 flex flex-col justify-between min-w-0">
+        <div>
+          <Link
+            href={`/book/${item.id}`}
+            className="block font-sans font-bold text-gray-900 hover:text-orange-600 transition-all duration-300 mb-1 line-clamp-2 text-sm sm:text-base"
+          >
+            {item.title}
+          </Link>
+          <p className="text-xs sm:text-sm text-gray-600 mb-2 truncate font-light">
+            by {item.author}
+          </p>
+          <p className="text-base sm:text-lg font-sans font-bold text-orange-600">
+            ₦{item.price.toLocaleString()}
+          </p>
+        </div>
+
+        {/* Quantity Controls */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center border border-gray-300 rounded-lg">
+            <button
+              onClick={() =>
+                updateQuantity(item.id, Math.max(1, item.quantity - 1))
+              }
+              className="p-1 sm:p-2 hover:bg-gray-100 transition-all duration-300 hover-scale"
+            >
+              <Minus className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
+            </button>
+            <span className="w-6 sm:w-8 text-center font-semibold text-sm sm:text-base">
+              {item.quantity}
+            </span>
+            <button
+              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+              className="p-1 sm:p-2 hover:bg-gray-100 transition-all duration-300 hover-scale"
+            >
+              <Plus className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
+            </button>
+          </div>
+
+          <button
+            onClick={() => removeItem(item.id)}
+            className="ml-auto p-1 sm:p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover-scale shrink-0"
+          >
+            <Trash2 className="w-4 sm:w-5 h-4 sm:h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Line Total */}
+      <div className="text-right font-semibold text-gray-900 text-sm sm:text-base whitespace-nowrap ml-2">
+        ₦{(item.price * item.quantity).toLocaleString()}
+      </div>
+    </div>
+  );
+}
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotalPrice } = useCart();
@@ -74,82 +162,13 @@ export default function CartPage() {
           <div className="lg:col-span-2">
             <div className="space-y-6">
               {items.map((item, index) => (
-                <div
+                <CartItemRow
                   key={item.id}
-                  className="flex gap-6 pb-6 border-b border-gray-200 last:border-b-0 animate-fade-in-up hover-lift transition-all duration-300"
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                  }}
-                >
-                  {/* Image */}
-                  <div className="relative w-20 h-28 sm:w-24 sm:h-32 shrink-0 overflow-hidden rounded-lg hover-scale">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                      crossOrigin="anonymous"
-                    />
-                  </div>
-
-                  {/* Details */}
-                  <div className="flex-1 flex flex-col justify-between min-w-0">
-                    <div>
-                      <Link
-                        href={`/book/${item.id}`}
-                        className="block font-sans font-bold text-gray-900 hover:text-orange-600 transition-all duration-300 mb-1 line-clamp-2 text-sm sm:text-base"
-                      >
-                        {item.title}
-                      </Link>
-                      <p className="text-xs sm:text-sm text-gray-600 mb-2 truncate font-light">
-                        by {item.author}
-                      </p>
-                      <p className="text-base sm:text-lg font-sans font-bold text-orange-600">
-                        ₦{item.price.toLocaleString()}
-                      </p>
-                    </div>
-
-                    {/* Quantity Controls */}
-                    <div className="flex items-center gap-2 sm:gap-4">
-                      <div className="flex items-center border border-gray-300 rounded-lg">
-                        <button
-                          onClick={() =>
-                            updateQuantity(
-                              item.id,
-                              Math.max(1, item.quantity - 1),
-                            )
-                          }
-                          className="p-1 sm:p-2 hover:bg-gray-100 transition-all duration-300 hover-scale"
-                        >
-                          <Minus className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
-                        </button>
-                        <span className="w-6 sm:w-8 text-center font-semibold text-sm sm:text-base">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="p-1 sm:p-2 hover:bg-gray-100 transition-all duration-300 hover-scale"
-                        >
-                          <Plus className="w-3 sm:w-4 h-3 sm:h-4 text-gray-600" />
-                        </button>
-                      </div>
-
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="ml-auto p-1 sm:p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover-scale shrink-0"
-                      >
-                        <Trash2 className="w-4 sm:w-5 h-4 sm:h-5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Line Total */}
-                  <div className="text-right font-semibold text-gray-900 text-sm sm:text-base whitespace-nowrap ml-2">
-                    ₦{(item.price * item.quantity).toLocaleString()}
-                  </div>
-                </div>
+                  item={item}
+                  index={index}
+                  updateQuantity={updateQuantity}
+                  removeItem={removeItem}
+                />
               ))}
             </div>
 
